@@ -13,7 +13,7 @@ export class PredictionService {
   
 
   
-    sendData(file: File): Observable<any> {
+    sendData(file: any): Observable<any> {
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
       

@@ -1,4 +1,9 @@
 <div class="upload-container">
     <input type="file" (change)="onFileSelected($event)" accept="audio/*" #fileInput>
-    <button (click)="predict()" [disabled]="!selectedFile">Predict</button>
+    <div class="recording-controls">
+      <button (click)="startRecording()" [disabled]="isRecording">Start Recording</button>
+      <button (click)="stopRecording()" [disabled]="!isRecording">Stop Recording</button>
+      <audio #audioPlayer [src]="audioUrl" controls *ngIf="audioUrl"></audio>
+    </div>
+    <button (click)="predict()" [disabled]="!canPredict">Predict</button>
   </div>
