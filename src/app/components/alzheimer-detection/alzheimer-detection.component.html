@@ -1,0 +1,123 @@
+<div class="w-full max-w-2xl mx-auto mt-10">
+  <div class="bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-3xl font-bold text-center text-purple-600">
+      Alzheimer Detection
+    </h2>
+    <p class="text-center text-lg text-gray-600">
+      Analyze speech patterns to detect potential Alzheimer's symptoms
+    </p>
+
+    <!-- Tabs for each step -->
+    <div class="mt-6">
+      <div class="flex space-x-4">
+        <button
+          *ngFor="let step of steps; let i = index"
+          [class.bg-purple-600]="currentStep === i"
+          [class.text-white]="currentStep === i"
+          [class.text-gray-700]="currentStep !== i"
+          class="px-4 py-2 rounded-md font-semibold focus:outline-none"
+          [disabled]="currentStep < i"
+        >
+          {{ step }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Step content -->
+    <div class="mt-4">
+      <div *ngIf="currentStep === 0">
+        <div class="text-center">
+          <p class="text-lg text-gray-700">
+            This app analyzes your speech patterns to detect potential
+            Alzheimer's symptoms. Click "Start" to begin the process and follow
+            the instructions.
+          </p>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 1">
+        <div class="flex flex-col items-center gap-4">
+          <audio
+            *ngIf="audioUrl"
+            controls
+            [src]="audioUrl"
+            class="w-full mb-4"
+          ></audio>
+          <div *ngIf="isRecording" class="text-red-500 font-bold animate-pulse">
+            Recording in progress...
+          </div>
+          <button
+            *ngIf="!isRecording"
+            (click)="startRecording()"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md"
+          >
+            <span class="mr-2">🎤</span> Start Recording
+          </button>
+          <button
+            *ngIf="isRecording"
+            (click)="stopRecording()"
+            class="px-4 py-2 bg-red-600 text-white rounded-md"
+          >
+            <span class="mr-2">⏹️</span> Stop Recording
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 2">
+        <div class="flex flex-col items-center gap-4">
+          <div class="w-full bg-purple-200 h-2 rounded-full">
+            <div
+              class="bg-purple-600 h-2 rounded-full"
+              [style.width]="analysisComplete ? '100%' : '0%'"
+            ></div>
+          </div>
+          <p class="mt-2 text-lg text-gray-700">
+            {{ analysisComplete ? "Analysis complete!" : "Analyzing audio..." }}
+          </p>
+        </div>
+      </div>
+
+      <div *ngIf="currentStep === 3">
+        <div class="text-center">
+          <h3 class="text-2xl font-bold mb-4">Analysis Result</h3>
+          <p class="text-4xl font-bold text-purple-600 mb-4">
+            {{ analysisResult?.toFixed(2) }}%
+          </p>
+          <p class="mb-4">
+            {{
+              analysisResult! > 50
+                ? "Potential signs of Alzheimer's detected. Please consult a healthcare professional."
+                : "No significant signs of Alzheimer's detected. However, always consult a healthcare professional."
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="mt-6 flex justify-between">
+      <button
+        (click)="resetApplication()"
+        class="px-4 py-2 border rounded-md text-gray-700"
+      >
+        <span class="mr-2">🔄</span> Reset
+      </button>
+      <button
+        (click)="
+          currentStep === 0
+            ? (currentStep = 1)
+            : currentStep === 2 && !analysisComplete
+            ? analyzeAudio()
+            : null
+        "
+        [disabled]="(currentStep === 1 && !audioUrl) || currentStep === 3"
+        class="px-4 py-2 bg-purple-600 text-white rounded-md"
+      >
+        <span class="mr-2">▶️</span>
+        {{
+          currentStep === 0 ? "Start" : currentStep === 2 ? "Analyze" : "Next"
+        }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -49,9 +49,9 @@ export class UploadComponent {
   recordedBlob: Blob | null = null;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private predictionService: PredictionService,
-    private audioRecordingService: AudioRecordingService  
+    private audioRecordingService: AudioRecordingService
   ) {}
 
   onFileSelected(event: Event) {

@@ -1,0 +1,23 @@
+.fadeInOut {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fadeInOut.ng-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fadeInOut.ng-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fadeInOut.ng-leave {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.fadeInOut.ng-leave-active {
+  opacity: 0;
+  transform: translateY(0);
+}

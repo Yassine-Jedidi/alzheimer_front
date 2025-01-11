@@ -1,1 +1,6 @@
-<p>result works!</p>
+<div class="result-container">
+  <h2>Prediction Results</h2>
+  <p>{{ final_result }}</p>
+  <p>Confidence: {{ result["res4"] }}%</p>
+  <button (click)="goBack()">Go Back</button>
+</div>
